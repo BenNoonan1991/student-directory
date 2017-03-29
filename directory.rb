@@ -16,7 +16,11 @@ def input_students
       cohort = "November"
     end
     students << {name: name, cohort: cohort, nationality: nationality}
+    if students.count == 1
+    puts "Now we have #{students.count} student"
+  else
     puts "Now we have #{students.count} students"
+  end 
     # Get another name from the user
     name = gets.chomp
   end
