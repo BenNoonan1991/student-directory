@@ -3,14 +3,14 @@ def input_students
   puts "To finish, just hit return twice"
   # Create an empty array
   students = []
-  name = gets.chomp
+  name = gets.delete("\n")
   # While the name is not empty, repeat this code
   while !name.empty? do
     # Add the student hash to the array
     puts "Please enter the student's nationality: "
-    nationality = gets.chomp
+    nationality = gets.delete("\n")
     puts "What is the student's cohort?"
-    cohort = gets.chomp.capitalize.to_sym
+    cohort = gets.delete("\n").capitalize.to_sym
     if cohort.empty?
       puts "Default cohort is November"
       cohort = "November"
@@ -20,9 +20,9 @@ def input_students
     puts "Now we have #{students.count} student"
   else
     puts "Now we have #{students.count} students"
-  end 
+  end
     # Get another name from the user
-    name = gets.chomp
+    name = gets.delete("\n")
   end
   # Return the array of students
   students
