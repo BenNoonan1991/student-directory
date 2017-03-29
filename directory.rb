@@ -30,9 +30,13 @@ def print_header
 end
 
 def print(students)
+  puts "Please input the cohort you would like to see"
+  cohort_choice = gets.chomp.to_sym
 students.each_with_index do |student, index|
+  if cohort_choice == student[:cohort]
   puts "#{index + 1} #{student[:name]} (#{student[:cohort]} cohort, #{student[:nationality]})".center(50)
   end
+end
 end
 
 def print_footer(students)
