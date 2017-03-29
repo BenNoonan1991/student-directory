@@ -36,7 +36,7 @@ end
 def print(students)
   puts "Please input the cohort you would like to see"
   cohort_choice = gets.chomp.to_sym
-students.each_with_index do |student, index|
+  students.each_with_index do |student, index|
   if cohort_choice == student[:cohort]
   puts "#{index + 1} #{student[:name]} (#{student[:cohort]} cohort, #{student[:nationality]})".center(50)
   end
@@ -44,7 +44,13 @@ end
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(50)
+  if students.count == 1
+    puts "We have 1 great student here.".center(50)
+  elsif students.count == 0
+    puts "There are no students enrolled."
+  else
+    puts "Overall, we have #{students.count} great students".center(50)
+  end
 end
 
 students = input_students
