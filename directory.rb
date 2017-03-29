@@ -9,7 +9,13 @@ def input_students
     # Add the student hash to the array
     puts "Please enter the student's nationality: "
     nationality = gets.chomp
-    students << {name: name, cohort: :november, nationality: nationality}
+    puts "What is the student's cohort?"
+    cohort = gets.chomp.capitalize.to_sym
+    if cohort.empty?
+      puts "Default cohort is November"
+      cohort = "November"
+    end
+    students << {name: name, cohort: cohort, nationality: nationality}
     puts "Now we have #{students.count} students"
     # Get another name from the user
     name = gets.chomp
