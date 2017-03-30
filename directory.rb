@@ -1,39 +1,5 @@
 @students = []
 
-def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  name = gets.delete("\n")
-  # While the name is not empty, repeat this code
-  while !name.empty? do
-    # Add the student hash to the array
-    puts "Please enter the student's nationality: "
-    nationality = gets.delete("\n")
-    puts "What is the student's cohort?"
-    cohort = gets.delete("\n").capitalize.to_sym
-    if cohort.empty?
-      puts "Default cohort is November"
-      cohort = "November"
-    end
-    @students << {name: name, cohort: cohort, nationality: nationality}
-    if @students.count == 1
-      puts "Now we have #{@students.count} student"
-    else
-      puts "Now we have #{@students.count} students"
-    end
-    # Get another name from the user
-    name = gets.delete("\n")
-  end
-end
-
-
-def interactive_menu
-  loop do
-    print_menu
-    process(gets.chomp)
-  end
-end
-
 def print_menu
   puts "1. Input the students."
   puts "2. Show the students"
@@ -42,10 +8,11 @@ def print_menu
   puts "9. Exit" # Because we'll be adding more variables.
 end
 
-def show_students
-  print_header
-  print_students_list
-  print_footer
+def interactive_menu
+  loop do
+    print_menu
+    process(STDIN.gets.delete("\n"))
+  end
 end
 
 def process(selection)
@@ -64,6 +31,41 @@ def process(selection)
   end
 end
 
+
+def input_students
+  puts "Please enter the names of the students"
+  puts "To finish, just hit return twice"
+  name = STDIN.gets.delete("\n")
+  # While the name is not empty, repeat this code
+  while !name.empty? do
+    # Add the student hash to the array
+    puts "Please enter the student's nationality: "
+    nationality = STDIN.gets.delete("\n")
+    puts "What is the student's cohort?"
+    cohort = STDIN.gets.delete("\n").capitalize.to_sym
+    if cohort.empty?
+      puts "Default cohort is November"
+      cohort = "November"
+    end
+    @students << {name: name, cohort: cohort, nationality: nationality}
+    if @students.count == 1
+      puts "Now we have #{@students.count} student"
+    else
+      puts "Now we have #{@students.count} students"
+    end
+    # Get another name from the user
+    name = STDIN.gets.delete("\n")
+  end
+end
+
+
+
+def show_students
+  print_header
+  print_students_list
+  print_footer
+end
+
 def print_header
   puts "The students of Villains Academy".center(50, '-')
   puts "-------------".center(50)
@@ -71,7 +73,7 @@ end
 
 def print_students_list
   puts "Please input the cohort you would like to see"
-  cohort_choice = gets.chomp.to_sym
+  cohort_choice = STDIN.gets.chomp.to_sym
   @students.each_with_index do |student, index|
   if cohort_choice == student[:cohort]
   puts "#{index + 1} #{student[:name]} (#{student[:cohort]} cohort, #{student[:nationality]})".center(50)
@@ -102,7 +104,7 @@ def save_students
   file.close
 end
 
-def load_students
+def load_students(filename = "students.csv")
   file = File.open("students.csv", "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
@@ -111,4 +113,17 @@ def load_students
   file.close
 end
 
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+     puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
+end
+
+try_load_students
 interactive_menu
