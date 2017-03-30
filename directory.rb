@@ -31,30 +31,33 @@ def process(selection)
   end
 end
 
+def store_info
+  @students << {name: @name, cohort: @cohort.to_sym, nationality: @nationality}
+end
 
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  name = STDIN.gets.delete("\n")
+  @name = STDIN.gets.delete("\n")
   # While the name is not empty, repeat this code
-  while !name.empty? do
+  while !@name.empty? do
     # Add the student hash to the array
     puts "Please enter the student's nationality: "
-    nationality = STDIN.gets.delete("\n")
+    @nationality = STDIN.gets.delete("\n")
     puts "What is the student's cohort?"
-    cohort = STDIN.gets.delete("\n").capitalize.to_sym
-    if cohort.empty?
+    @cohort = STDIN.gets.delete("\n").capitalize.to_sym
+    if @cohort.empty?
       puts "Default cohort is November"
-      cohort = "November"
+      @cohort = "November"
     end
-    @students << {name: name, cohort: cohort, nationality: nationality}
+    store_info
     if @students.count == 1
       puts "Now we have #{@students.count} student"
     else
       puts "Now we have #{@students.count} students"
     end
     # Get another name from the user
-    name = STDIN.gets.delete("\n")
+    @name = STDIN.gets.delete("\n")
   end
 end
 
@@ -107,8 +110,8 @@ end
 def load_students(filename = "students.csv")
   file = File.open("students.csv", "r")
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+  @name, @cohort = line.chomp.split(',')
+    store_info
   end
   file.close
 end
