@@ -71,15 +71,15 @@ def show_students
 end
 
 def print_header
+  puts "Please input the cohort you would like to see"
+  @cohort_choice = STDIN.gets.chomp.to_sym
   puts "The students of Villains Academy".center(50, '-')
   puts "-------------".center(50)
 end
 
 def print_students_list
-  puts "Please input the cohort you would like to see"
-  cohort_choice = STDIN.gets.chomp.to_sym
   @students.each_with_index do |student, index|
-  if cohort_choice == student[:cohort]
+  if @cohort_choice == student[:cohort]
   puts "#{index + 1} #{student[:name]} (#{student[:cohort]} cohort, #{student[:nationality]})".center(50)
   end
 end
@@ -103,7 +103,7 @@ def save_students
   CSV.open(filename, "w") do |csv|
   #Iterate over the array of students
   @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
+    student_data = [student[:name], student[:cohort], student[:nationality]]
     csv << student_data
   end
 end
@@ -116,7 +116,7 @@ def load_students(filename = false)
   if File.exists?(filename)
   File.open(filename, "r") do |file|
   file.readlines.each do |line|
-  @name, @cohort = line.chomp.split(',')
+  @name, @cohort, @nationality = line.chomp.split(',')
     store_info
   end
 end
