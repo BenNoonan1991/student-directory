@@ -17,11 +17,17 @@ end
 
 def process(selection)
   case selection
-  when "1" then input_students
-  when "2" then show_students
-  when "3" then save_students
-  when "4" then load_students
-  when "9" then exit
+  when "1" then puts "You chose input students"
+    input_students
+  when "2" then puts "You chose show students"
+    show_students
+  when "3" then
+    puts "You chose save students"
+    save_students
+  when "4" then puts "You chose load students"
+    load_students
+  when "9" then puts "You chose to exit"
+    exit
   else
     puts "I don't know what you mean, try again"
   end
