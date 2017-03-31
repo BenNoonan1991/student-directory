@@ -1,3 +1,4 @@
+require 'CSV'
 @students = []
 
 def print_menu
@@ -63,8 +64,6 @@ def input_students
   end
 end
 
-
-
 def show_students
   print_header
   print_students_list
@@ -85,7 +84,6 @@ def print_students_list
   end
 end
 
-
 def print_footer
   if @students.count == 1
     puts "We have 1 great student here.".center(50)
@@ -102,12 +100,11 @@ def save_students
   filename = gets.chomp
   filename = "students.csv" if filename == ""
   #Open the file for writing
-  File.open(filename, "w") do |file|
+  CSV.open(filename, "w") do |csv|
   #Iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+    csv << student_data
   end
 end
 end
