@@ -102,14 +102,14 @@ def save_students
   filename = gets.chomp
   filename = "students.csv" if filename == ""
   #Open the file for writing
-  file = File.open(filename, "w")
+  File.open(filename, "w") do |file|
   #Iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
-  file.close
+end
 end
 
 def load_students(filename = false)
@@ -117,15 +117,15 @@ def load_students(filename = false)
   filename = gets.chomp unless filename
   filename = "students.csv" if filename == ""
   if File.exists?(filename)
-  file = File.open(filename, "r")
+  File.open(filename, "r") do |file|
   file.readlines.each do |line|
   @name, @cohort = line.chomp.split(',')
     store_info
   end
+end
 else
   puts "File does not exist"
 end
-  file.close
 end
 
 def try_load_students
